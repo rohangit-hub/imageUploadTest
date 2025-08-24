@@ -4,18 +4,8 @@ const router = express.Router();
 import multer from "multer";
 import { storage } from "./controller/imageUpload.js";
 
-// Only accept images; set 10MB default limit or use env override
-const imageFileFilter = (req, file, cb) => {
-	if (!file || !file.mimetype) return cb(new Error("Invalid file"));
-	if (file.mimetype.startsWith("image/")) return cb(null, true);
-	return cb(new Error("Only image uploads are allowed"));
-};
 
-const upload = multer({
-	storage,
-	fileFilter: imageFileFilter,
-	limits: { fileSize: Number(process.env.MAX_IMAGE_SIZE_BYTES || 10 * 1024 * 1024) },
-});
+const upload = multer({storage , limits: {fileSize: 10 * 1024 * 1024}});
 
 // Import all the routes
 import TestApi from "./controller/testApi.js";
