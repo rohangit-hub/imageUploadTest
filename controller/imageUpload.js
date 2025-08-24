@@ -36,13 +36,26 @@ export default async function uploadImage(req, res) {
         // send the image url to the client
         return res.status(200).json({
             message: "Image uploaded successfully..!",
-            url,
-            public_id: filename,
-            size,
-            mimetype,
             file: req.file,
         });
     } catch (error) {
         return res.status(500).json({ message: "Image upload failed", error: error.message });
     }
 }
+
+/*
+
+{
+    "message": "Image uploaded successfully..!",
+    "file": {
+        "fieldname": "image",
+        "originalname": "parrotProfile.jpg",
+        "encoding": "7bit",
+        "mimetype": "image/jpeg",
+        "path": "https://res.cloudinary.com/dixiwmfbg/image/upload/v1756053572/Test-Images/parrotProfile.jpg-1756053570647.jpg",
+        "size": 8046597,
+        "filename": "Test-Images/parrotProfile.jpg-1756053570647"
+    }
+}
+
+*/
