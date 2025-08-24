@@ -22,25 +22,35 @@ export const storage = new CloudinaryStorage({
     },
   });
 
-export default async function uploadImage(req, res) {
+
+  export default async function uploadImage(req, res) {
     try {
-        if (!req.file) {
-            return res.status(400).json({ message: "No image file provided" });
-        }
-
-        // Using CloudinaryStorage, the file is already uploaded to Cloudinary.
-        // Multer provides the uploaded file metadata on req.file (including a secure URL at req.file.path)
-        const { path: url, filename, size, mimetype } = req.file;
-
-        return res.status(200).json({
-            message: "Image uploaded successfully..!",
-            url,
-            public_id: filename,
-            size,
-            mimetype,
-            file: req.file,
-        });
+        const result = await cloudinary.uploader.upload(req.file.path);
+        res.status(200).json({ message: "Image uploaded successfully", result });
     } catch (error) {
-        return res.status(500).json({ message: "Image upload failed", error: error.message });
-    }
+        res.status(500).json({ message: "Image upload failed", error: error.message });
+    }   
 }
+
+// export default async function uploadImage(req, res) {
+//     try {
+//         if (!req.file) {
+//             return res.status(400).json({ message: "No image file provided" });
+//         }
+
+//         // Using CloudinaryStorage, the file is already uploaded to Cloudinary.
+//         // Multer provides the uploaded file metadata on req.file (including a secure URL at req.file.path)
+//         const { path: url, filename, size, mimetype } = req.file;
+
+//         return res.status(200).json({
+//             message: "Image uploaded successfully..!",
+//             url,
+//             public_id: filename,
+//             size,
+//             mimetype,
+//             file: req.file,
+//         });
+//     } catch (error) {
+//         return res.status(500).json({ message: "Image upload failed", error: error.message });
+//     }
+// }
